@@ -14,7 +14,7 @@ OpenAPI / Swagger / Springfox has still no way of documenting enumerations in a 
 
 ## Usage
 
-Make your Spring application uses this component: [ApiEnumDescriptionPlugin](src/main/java/de/pentabyte/springfox/ApiEnumDescriptionPlugin.java). Example:
+Make your Spring application use this component: [ApiEnumDescriptionPlugin](src/main/java/de/pentabyte/springfox/ApiEnumDescriptionPlugin.java). Example:
 
 ```java
 @Configuration
@@ -46,7 +46,7 @@ Then - whenever this enumeration is used in combination with _@ApiModelProperty_
 SomeEnum attribute;
 ```
 
-It effectively produces this description in markup syntax for _attribute_.
+It effectively produces this description in markup syntax for _attribute_. It will not touch the description if none of the enums are annotated, though.
 
 ```
 This is the standard Swagger description for attribute.
