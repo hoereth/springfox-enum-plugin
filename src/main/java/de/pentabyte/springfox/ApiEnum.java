@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
 @Target(FIELD)
 public @interface ApiEnum {
 	/**
-	 * API description.
+	 * @return API description.
 	 */
 	String value();
 }
