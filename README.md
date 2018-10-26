@@ -1,7 +1,4 @@
 # springfox-enum-plugin
-Annotate your enums and have this plugin automatically enhance your Swagger docs with it.
-
-## Introduction
 
 OpenAPI has still no way of documenting enumerations in a structured way (as of version 3.0). This Plugin introduces the @ApiEnum annotation to overcome this problem.
 
