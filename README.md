@@ -14,11 +14,11 @@ OpenAPI / Swagger / Springfox has still no way of documenting enumerations in a 
 
 ## Usage
 
-Make your Spring application use this component: [ApiEnumDescriptionPlugin](src/main/java/de/pentabyte/springfox/ApiEnumDescriptionPlugin.java). Example:
+Make your Spring application uses this component: [ApiEnumDescriptionPlugin](src/main/java/de/pentabyte/springfox/ApiEnumDescriptionPlugin.java). Example:
 
 ```java
 @Configuration
-@Import(ApiEnumDescriptionPlugin.class)
+@Import(ApiEnumDescriptionPlugin.class) // add this line
 public void MySpringConfiguration {
 	...
 }
