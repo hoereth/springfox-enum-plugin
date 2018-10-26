@@ -14,7 +14,17 @@ OpenAPI / Swagger / Springfox has still no way of documenting enumerations in a 
 
 ## Usage
 
-This plugin automatically registers with Spring and Springfox and will process these proprietary @de.pentabyte.springfox.ApiEnum annotations:
+Make your Spring application use this component: *de.pentabyte.springfox.ApiEnumDescriptionPlugin*. Example:
+
+```java
+@Configuration
+@Import(ApiEnumDescriptionPlugin.class)
+public void MySpringConfiguration {
+	...
+}
+```
+
+The plugin automatically registers with Springfox and will process these proprietary @de.pentabyte.springfox.ApiEnum annotations:
 
 ```java
 public enum SomeEnum {
@@ -32,14 +42,14 @@ public enum SomeEnum {
 Then - whenever this enumeration is used in combination with @ApiModelProperty, the plugin will extend the standard description.
 
 ```java
-@ApiModelProperty("This is the standard Swagger description.")
+@ApiModelProperty("This is the standard Swagger description for attribute.")
 SomeEnum attribute;
 ```
 
-It effectively produces this description in markup syntax for _attribute_ (and any other attribute of the same type).
+It effectively produces this description in markup syntax for _attribute_.
 
 ```
-This is the standard Swagger description.
+This is the standard Swagger description for attribute.
 * A: First option
 * B: Second option
 * C: _@ApiEnum annotation not available_
