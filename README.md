@@ -1,6 +1,6 @@
 # springfox-enum-plugin
 
-OpenAPI / Swagger / Springfox has still no way of documenting enumerations in a structured way (as of version 3.0). This Plugin introduces the @ApiEnum annotation to overcome this problem.
+OpenAPI / Swagger / Springfox has still no way of documenting enumerations in a structured way (as of OpenAPI 3.0). This Plugin introduces the @ApiEnum annotation to overcome this problem.
 
 ## Maven Coordinates
 
@@ -14,7 +14,7 @@ OpenAPI / Swagger / Springfox has still no way of documenting enumerations in a 
 
 ## Usage
 
-This plugin automatically registers with Spring and Springfox and will process these @de.pentabyte.springfox.ApiEnum annotations:
+This plugin automatically registers with Spring and Springfox and will process these proprietary @de.pentabyte.springfox.ApiEnum annotations:
 
 ```java
 public enum SomeEnum {
