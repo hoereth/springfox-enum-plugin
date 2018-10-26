@@ -1,6 +1,6 @@
 # springfox-enum-plugin
 
-OpenAPI has still no way of documenting enumerations in a structured way (as of version 3.0). This Plugin introduces the @ApiEnum annotation to overcome this problem.
+OpenAPI / Swagger / Springfox has still no way of documenting enumerations in a structured way (as of version 3.0). This Plugin introduces the @ApiEnum annotation to overcome this problem.
 
 ## Maven Coordinates
 
@@ -36,7 +36,7 @@ Then - whenever this enumeration is used in combination with @ApiModelProperty, 
 SomeEnum attribute;
 ```
 
-It effectively produces this description in markup syntax for _attribute_ (and any other attribute of the same type):
+It effectively produces this description in markup syntax for _attribute_ (and any other attribute of the same type).
 
 ```
 This is the standard Swagger description.
