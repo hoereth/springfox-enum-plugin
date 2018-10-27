@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -29,6 +31,7 @@ import springfox.documentation.swagger.common.SwaggerPluginSupport;
 @Component
 @Order(SwaggerPluginSupport.SWAGGER_PLUGIN_ORDER + 1000)
 public class ApiEnumDescriptionPlugin implements ModelPropertyBuilderPlugin {
+	private static Logger LOG = LoggerFactory.getLogger(ApiEnumDescriptionPlugin.class);
 
 	@Override
 	public boolean supports(DocumentationType delimiter) {
@@ -37,27 +40,33 @@ public class ApiEnumDescriptionPlugin implements ModelPropertyBuilderPlugin {
 
 	@Override
 	public void apply(ModelPropertyContext context) {
-		Optional<BeanPropertyDefinition> beanDef = context.getBeanPropertyDefinition();
-		if (beanDef.isPresent()) {
-			AnnotatedField aField = beanDef.get().getField();
-			if (aField != null) {
-				Field field = aField.getAnnotated();
-				if (field != null) {
-					Class<?> clazz = field.getType();
-					if (clazz.isEnum()) {
-						ApiModelProperty property = field.getAnnotation(ApiModelProperty.class);
-						if (property != null) {
-							String description = property.value();
-							@SuppressWarnings("unchecked")
-							String markdown = createMarkdownDescription((Class<? extends Enum<?>>) clazz);
-							if (markdown != null) {
-								description += "\n" + markdown;
-								context.getBuilder().description(description);
+		try {
+			Optional<BeanPropertyDefinition> beanDef = context.getBeanPropertyDefinition();
+			if (beanDef.isPresent()) {
+				AnnotatedField aField = beanDef.get().getField();
+				if (aField != null) {
+					Field field = aField.getAnnotated();
+					if (field != null) {
+						Class<?> clazz = field.getType();
+						if (clazz.isEnum()) {
+							ApiModelProperty property = field.getAnnotation(ApiModelProperty.class);
+							if (property != null) {
+								String description = property.value();
+								@SuppressWarnings("unchecked")
+								String markdown = createMarkdownDescription((Class<? extends Enum<?>>) clazz);
+								if (markdown != null) {
+									description += "\n" + markdown;
+									context.getBuilder().description(description);
+								}
 							}
 						}
 					}
 				}
 			}
+		} catch (Throwable t) {
+			// The exception will be logged, because Springfox will not.
+			LOG.warn("Cannot process ApiModelProperty. Will throw new RuntimeException now.", t);
+			throw new RuntimeException(t);
 		}
 	}
 
