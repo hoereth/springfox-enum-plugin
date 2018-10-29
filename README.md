@@ -57,4 +57,4 @@ This is the standard Swagger description for attribute.
 
 ## Outlook
 
-It seems obvious that this a temporary solution. Once the OpenAPI specs provide a relevant new feature for handling enumerations, it should be fairly simple to drop the usage of this plugin and replace all @ApiEnum annotations with their future counterparts.
+It seems obvious that this a temporary solution. Once the OpenAPI specs provide a relevant new feature for handling enumerations, it should be fairly simple to drop the usage of this plugin and replace all [@ApiEnum](src/main/java/de/pentabyte/springfox/ApiEnum.java) annotations with their future counterparts.
