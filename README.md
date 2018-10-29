@@ -39,7 +39,7 @@ public enum SomeEnum {
 }
 ```
 
-Then - whenever this enumeration is used in combination with _@ApiModelProperty_ or _@ApiParam_, the plugin will extend the standard description. Example:
+Then - whenever such an enumeration is used in combination with _@ApiModelProperty_ or _@ApiParam_, the plugin will extend the standard description. Example:
 
 ```java
 @ApiModelProperty("This is the standard Swagger description for attribute.")
