@@ -1,8 +1,9 @@
 # springfox-enum-plugin Changelog
 All notable changes to the springfox-enum-plugin will be documented in this file.
 
-## [UNRELEASED]
-- exception handling
+## [1.1.0] - 2018-10-2
+### Added
+- also processing @ApiParam
 
 ## [1.0.2] - 2018-10-26
 ### Fixed

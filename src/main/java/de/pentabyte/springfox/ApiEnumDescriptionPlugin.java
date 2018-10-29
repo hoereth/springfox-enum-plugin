@@ -10,27 +10,32 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.classmate.ResolvedType;
 import com.fasterxml.jackson.databind.introspect.AnnotatedField;
 import com.fasterxml.jackson.databind.introspect.BeanPropertyDefinition;
 import com.google.common.base.Optional;
 
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiParam;
+import springfox.documentation.service.ResolvedMethodParameter;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.schema.ModelPropertyBuilderPlugin;
 import springfox.documentation.spi.schema.contexts.ModelPropertyContext;
+import springfox.documentation.spi.service.ParameterBuilderPlugin;
+import springfox.documentation.spi.service.contexts.ParameterContext;
 import springfox.documentation.swagger.common.SwaggerPluginSupport;
 
 /**
- * Will extend all {@link ApiModelProperty}s' description with a list of ENUM
- * descriptions, if the property is an enum and if at least one of its values is
- * annotated with {@link ApiEnum} to make this work.
+ * Will extend all {@link ApiModelProperty}s' and {@link ApiParam}s' description
+ * with a list of ENUM descriptions, if the property is an enum and if at least
+ * one of its values is annotated with {@link ApiEnum} to make this work.
  * 
  * @author Michael Höreth
  * @since 2018
  */
 @Component
 @Order(SwaggerPluginSupport.SWAGGER_PLUGIN_ORDER + 1000)
-public class ApiEnumDescriptionPlugin implements ModelPropertyBuilderPlugin {
+public class ApiEnumDescriptionPlugin implements ModelPropertyBuilderPlugin, ParameterBuilderPlugin {
 	private static Logger LOG = LoggerFactory.getLogger(ApiEnumDescriptionPlugin.class);
 
 	@Override
@@ -66,6 +71,42 @@ public class ApiEnumDescriptionPlugin implements ModelPropertyBuilderPlugin {
 		} catch (Throwable t) {
 			// The exception will be logged, because Springfox will not.
 			LOG.warn("Cannot process ApiModelProperty. Will throw new RuntimeException now.", t);
+			throw new RuntimeException(t);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see springfox.documentation.spi.service.ParameterBuilderPlugin#apply(
+	 * springfox.documentation.spi.service.contexts.ParameterContext)
+	 */
+	@Override
+	public void apply(ParameterContext context) {
+		try {
+			ResolvedMethodParameter param = context.resolvedMethodParameter();
+
+			if (param != null) {
+				ResolvedType resType = param.getParameterType();
+				if (resType != null) {
+					Class<?> clazz = resType.getErasedType();
+					if (clazz.isEnum()) {
+						Optional<ApiParam> annotation = param.findAnnotation(ApiParam.class);
+						if (annotation.isPresent()) {
+							String description = annotation.get().value();
+							@SuppressWarnings("unchecked")
+							String markdown = createMarkdownDescription((Class<? extends Enum<?>>) clazz);
+							if (markdown != null) {
+								description += "\n" + markdown;
+								context.parameterBuilder().description(description);
+							}
+						}
+					}
+				}
+			}
+		} catch (Throwable t) {
+			// The exception will be logged, because Springfox will not.
+			LOG.warn("Cannot process ApiParameter. Will throw new RuntimeException now.", t);
 			throw new RuntimeException(t);
 		}
 	}

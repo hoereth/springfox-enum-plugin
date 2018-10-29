@@ -8,7 +8,7 @@ OpenAPI / Swagger / Springfox has still no way of documenting enumerations in a 
 <dependency>
 	<groupId>de.pentabyte</groupId>
 	<artifactId>springfox-enum-plugin</artifactId>
-	<version>1.0.2</version>
+	<version>1.1.0</version>
 </dependency>
 ```
 
@@ -39,7 +39,7 @@ public enum SomeEnum {
 }
 ```
 
-Then - whenever this enumeration is used in combination with _@ApiModelProperty_, the plugin will extend the standard description.
+Then - whenever this enumeration is used in combination with _@ApiModelProperty_ or _@ApiParam_, the plugin will extend the standard description. Example:
 
 ```java
 @ApiModelProperty("This is the standard Swagger description for attribute.")
