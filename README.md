@@ -8,7 +8,7 @@ OpenAPI / Swagger / Springfox provide no way of documenting enumerations in a st
 <dependency>
 	<groupId>de.pentabyte</groupId>
 	<artifactId>springfox-enum-plugin</artifactId>
-	<version>1.1.0</version>
+	<version>1.1.1</version>
 </dependency>
 ```
 
