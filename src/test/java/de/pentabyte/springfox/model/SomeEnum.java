@@ -1,6 +1,8 @@
-package de.pentabyte.springfox;
+package de.pentabyte.springfox.model;
 
-public enum TestEnum {
+import de.pentabyte.springfox.ApiEnum;
+
+public enum SomeEnum {
 	@ApiEnum("First Option")
 	A,
 	/**
