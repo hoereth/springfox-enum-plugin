@@ -49,7 +49,7 @@ public class ApiEnumDescriptionPluginTest {
 
 	@Test
 	public void test_apply_ModelPropertyContext_Ordinal() throws NoSuchFieldException, SecurityException {
-		test_modelProperty(SomeModel.class, "ordinalAttribute", "Some description.\n" + "* A: First Option\n"
+		test_modelProperty(SomeModel.class, "attribute2", "Some description.\n" + "* A: First Option\n"
 				+ "* B: Second Option\n" + "* C: _@ApiEnum annotation not available_");
 	}
 

@@ -39,19 +39,19 @@ public enum SomeEnum {
 }
 ```
 
-Then - whenever such an enumeration is used in combination with _@ApiModelProperty_ or _@ApiParam_, the plugin will extend the standard description. Example:
+Then - whenever such an enumeration is used in combination with _@ApiModelProperty_ or _@ApiParam_, the plugin will extend the standard description. Examples:
 
 ```java
 @ApiModelProperty("Some description.")
 SomeEnum attribute;
 
 @ApiModelProperty(value = "Some description.", dataType = "...SomeEnum")
-Integer ordinalAttribute;
+Integer attribute2;
 
 public void someMethod(@ApiParam("Some description.") SomeEnum param) { ... }
 ```
 
-It effectively produces this description in markdown syntax for _attribute_, _ordinalAttribute_ and _param_. It will not touch the description if none of the enums are annotated, though.
+It effectively produces this description in markdown syntax for _attribute_, _attribute2_ and _param_. It will not touch the description if none of the enums are annotated, though.
 
 ```
 Some description.

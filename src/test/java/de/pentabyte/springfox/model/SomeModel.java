@@ -12,7 +12,7 @@ public class SomeModel {
 	SomeEnum attribute;
 
 	@ApiModelProperty(value = "Some description.", dataType = "de.pentabyte.springfox.model.SomeEnum")
-	Integer ordinalAttribute;
+	Integer attribute2;
 
 	public SomeEnum getAttribute() {
 		return attribute;
@@ -22,12 +22,12 @@ public class SomeModel {
 		this.attribute = attribute;
 	}
 
-	public Integer getOrdinalAttribute() {
-		return ordinalAttribute;
+	public Integer getAttribute2() {
+		return attribute2;
 	}
 
-	public void setOrdinalAttribute(Integer ordinalAttribute) {
-		this.ordinalAttribute = ordinalAttribute;
+	public void setAttribute2(Integer attribute2) {
+		this.attribute2 = attribute2;
 	}
 
 }
