@@ -8,7 +8,7 @@ OpenAPI / Swagger / Springfox provide no way of documenting enumerations in a st
 <dependency>
 	<groupId>de.pentabyte</groupId>
 	<artifactId>springfox-enum-plugin</artifactId>
-	<version>1.1.1</version>
+	<version>1.2.0</version>
 </dependency>
 ```
 
@@ -42,17 +42,19 @@ public enum SomeEnum {
 Then - whenever such an enumeration is used in combination with _@ApiModelProperty_ or _@ApiParam_, the plugin will extend the standard description. Example:
 
 ```java
-@ApiModelProperty("This is the standard Swagger description for attribute.")
+@ApiModelProperty("Some description.")
 SomeEnum attribute;
 
-@ApiModelProperty(value = "This is an integer, but will be documented as enum.", dataType = "...SomeEnum")
+@ApiModelProperty(value = "Some description.", dataType = "...SomeEnum")
 Integer ordinalAttribute;
+
+public void someMethod(@ApiParam("Some description.") SomeEnum param) { ... }
 ```
 
-It effectively produces this description in markup syntax for _attribute_. It will not touch the description if none of the enums are annotated, though.
+It effectively produces this description in markdown syntax for _attribute_, _ordinalAttribute_ and _param_. It will not touch the description if none of the enums are annotated, though.
 
 ```
-This is the standard Swagger description for attribute.
+Some description.
 * A: First option
 * B: Second option
 * C: _@ApiEnum annotation not available_

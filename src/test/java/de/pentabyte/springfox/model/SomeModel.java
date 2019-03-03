@@ -8,10 +8,10 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @ApiModel
 public class SomeModel {
-	@ApiModelProperty("This is the standard Swagger description for attribute.")
+	@ApiModelProperty("Some description.")
 	SomeEnum attribute;
 
-	@ApiModelProperty(value = "This is an integer, but will be documented as enum.", dataType = "de.pentabyte.springfox.model.SomeEnum")
+	@ApiModelProperty(value = "Some description.", dataType = "de.pentabyte.springfox.model.SomeEnum")
 	Integer ordinalAttribute;
 
 	public SomeEnum getAttribute() {
