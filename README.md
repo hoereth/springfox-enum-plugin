@@ -44,6 +44,9 @@ Then - whenever such an enumeration is used in combination with _@ApiModelProper
 ```java
 @ApiModelProperty("This is the standard Swagger description for attribute.")
 SomeEnum attribute;
+
+@ApiModelProperty(value = "This is an integer, but will be documented as enum.", dataType = "...SomeEnum")
+Integer ordinalAttribute;
 ```
 
 It effectively produces this description in markup syntax for _attribute_. It will not touch the description if none of the enums are annotated, though.

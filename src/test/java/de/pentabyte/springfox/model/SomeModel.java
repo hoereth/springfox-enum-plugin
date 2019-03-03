@@ -11,7 +11,7 @@ public class SomeModel {
 	@ApiModelProperty("This is the standard Swagger description for attribute.")
 	SomeEnum attribute;
 
-	@ApiModelProperty(value = "This is an integer, but will be presented as enum.", dataType = "de.pentabyte.springfox.model.SomeEnum")
+	@ApiModelProperty(value = "This is an integer, but will be documented as enum.", dataType = "de.pentabyte.springfox.model.SomeEnum")
 	Integer ordinalAttribute;
 
 	public SomeEnum getAttribute() {

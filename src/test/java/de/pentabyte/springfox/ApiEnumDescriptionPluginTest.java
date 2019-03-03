@@ -39,9 +39,9 @@ public class ApiEnumDescriptionPluginTest {
 				+ "* A: First Option\n" + "* B: Second Option\n" + "* C: _@ApiEnum annotation not available_");
 	}
 
-	// @Test
+	@Test
 	public void test_apply_ModelPropertyContext_Ordinal() throws NoSuchFieldException, SecurityException {
-		test(SomeModel.class, "ordinalAttribute", "This is the standard Swagger description for attribute.\n"
+		test(SomeModel.class, "ordinalAttribute", "This is an integer, but will be documented as enum.\n"
 				+ "* A: First Option\n" + "* B: Second Option\n" + "* C: _@ApiEnum annotation not available_");
 	}
 
