@@ -5,10 +5,11 @@ OpenAPI / Swagger / Springfox provide no way of documenting enumerations in a st
 ## Maven Coordinates
 
 ```xml
+<!-- https://mvnrepository.com/artifact/de.pentabyte/springfox-enum-plugin -->
 <dependency>
-	<groupId>de.pentabyte</groupId>
-	<artifactId>springfox-enum-plugin</artifactId>
-	<version>1.2.0</version>
+    <groupId>de.pentabyte</groupId>
+    <artifactId>springfox-enum-plugin</artifactId>
+    <version>1.2.0</version>
 </dependency>
 ```
 
