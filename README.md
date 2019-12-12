@@ -4,7 +4,7 @@ OpenAPI / Swagger / Springfox provide no way of documenting enumerations in a st
 
 ## Compatibility with Springfox
 
-The 1.x branch of this project will only work with Springfox 2.x.
+The **1.x** branch of this project will only work with Springfox **2.x**.
 
 ## Maven Coordinates
 
