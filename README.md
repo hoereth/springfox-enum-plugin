@@ -1,6 +1,10 @@
 # springfox-enum-plugin
 
-OpenAPI / Swagger / Springfox provide no way of documenting enumerations in a structured way (as of [OpenAPI 3.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md)). This Springfox (v2) plugin introduces the [@ApiEnum](src/main/java/de/pentabyte/springfox/ApiEnum.java) annotation to automate the current suggestion: _"If you need to specify descriptions for enum items, you can do this in the description of the parameter or property"_ ([swagger.io](https://swagger.io/docs/specification/data-models/enums/)).
+OpenAPI / Swagger / Springfox provide no way of documenting enumerations in a structured way (as of [OpenAPI 3.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md)). This Springfox plugin introduces the [@ApiEnum](src/main/java/de/pentabyte/springfox/ApiEnum.java) annotation to automate the current suggestion: _"If you need to specify descriptions for enum items, you can do this in the description of the parameter or property"_ ([swagger.io](https://swagger.io/docs/specification/data-models/enums/)).
+
+## Compatibility with Springfox
+
+The 1.x branch of this project will only work with Springfox 2.x.
 
 ## Maven Coordinates
 
