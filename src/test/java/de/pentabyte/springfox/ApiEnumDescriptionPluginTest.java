@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.introspect.BeanPropertyDefinition;
 
 import de.pentabyte.springfox.model.SomeController;
 import de.pentabyte.springfox.model.SomeEnum;
+import de.pentabyte.springfox.model.SomeEnumWithJsonValueAnnotation;
 import de.pentabyte.springfox.model.SomeEnum2;
 import de.pentabyte.springfox.model.SomeModel;
 import springfox.documentation.builders.ModelPropertyBuilder;
@@ -34,6 +35,12 @@ public class ApiEnumDescriptionPluginTest {
 		Assert.assertEquals(expected, ApiEnumDescriptionPlugin.createMarkdownDescription(SomeEnum.class));
 
 		Assert.assertNull(ApiEnumDescriptionPlugin.createMarkdownDescription(SomeEnum2.class));
+	}
+
+	@Test
+	public void test_jsonValueAnnotation() {
+		String expected = "* a-1: A One\n* b-2: B Two";
+		Assert.assertEquals(expected, ApiEnumDescriptionPlugin.createMarkdownDescription(SomeEnumWithJsonValueAnnotation.class));
 	}
 
 	@Test
