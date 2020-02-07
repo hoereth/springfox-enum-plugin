@@ -13,6 +13,9 @@ public class SomeModel {
 
 	@ApiModelProperty(value = "Some description.", dataType = "de.pentabyte.springfox.model.SomeEnum")
 	Integer attribute2;
+	
+	@ApiModelProperty(value = "Some description.")
+	SomeEnumWithJsonValueAnnotation attribute3;
 
 	public SomeEnum getAttribute() {
 		return attribute;
@@ -28,6 +31,14 @@ public class SomeModel {
 
 	public void setAttribute2(Integer attribute2) {
 		this.attribute2 = attribute2;
+	}
+
+	public SomeEnumWithJsonValueAnnotation getAttribute3() {
+		return attribute3;
+	}
+
+	public void setAttribute3(SomeEnumWithJsonValueAnnotation attribute3) {
+		this.attribute3 = attribute3;
 	}
 
 }

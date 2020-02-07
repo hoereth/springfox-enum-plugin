@@ -15,7 +15,6 @@ import com.fasterxml.jackson.databind.introspect.BeanPropertyDefinition;
 
 import de.pentabyte.springfox.model.SomeController;
 import de.pentabyte.springfox.model.SomeEnum;
-import de.pentabyte.springfox.model.SomeEnumWithJsonValueAnnotation;
 import de.pentabyte.springfox.model.SomeEnum2;
 import de.pentabyte.springfox.model.SomeModel;
 import springfox.documentation.builders.ModelPropertyBuilder;
@@ -38,12 +37,6 @@ public class ApiEnumDescriptionPluginTest {
 	}
 
 	@Test
-	public void test_jsonValueAnnotation() {
-		String expected = "* a-1: A One\n* b-2: B Two";
-		Assert.assertEquals(expected, ApiEnumDescriptionPlugin.createMarkdownDescription(SomeEnumWithJsonValueAnnotation.class));
-	}
-
-	@Test
 	public void test_readApiDescription() {
 		Assert.assertEquals("First Option", ApiEnumDescriptionPlugin.readApiDescription(SomeEnum.A));
 	}
@@ -58,6 +51,12 @@ public class ApiEnumDescriptionPluginTest {
 	public void test_apply_ModelPropertyContext_Ordinal() throws NoSuchFieldException, SecurityException {
 		test_modelProperty(SomeModel.class, "attribute2", "Some description.\n" + "* A: First Option\n"
 				+ "* B: Second Option\n" + "* C: _@ApiEnum annotation not available_");
+	}
+	
+	@Test
+	public void test_apply_ModelPropertyContext_JsonValue() throws NoSuchFieldException, SecurityException {
+		test_modelProperty(SomeModel.class, "attribute3", "Some description.\n" + "* a-1: A One\n"
+				+ "* b-2: B Two");
 	}
 
 	private void test_modelProperty(Class<?> clazz, String attributeName, String expectedDescription) {
