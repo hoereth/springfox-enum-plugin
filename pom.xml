@@ -29,7 +29,8 @@
 
 	<scm>
 		<url>https://github.com/hoereth/springfox-enum-plugin</url>
-		<connection>scm:git:https://github.com/hoereth/springfox-enum-plugin.git</connection>
+		<connection>scm:git:ssh://git@github.com/hoereth/springfox-enum-plugin.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/hoereth/springfox-enum-plugin.git</developerConnection>
 		<tag>springfox-enum-plugin-1.3.0</tag>
 	</scm>
 
