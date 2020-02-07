@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.pentabyte</groupId>
 	<artifactId>springfox-enum-plugin</artifactId>
-	<version>1.2.1-SNAPSHOT</version>
+	<version>1.3.0</version>
 	<name>Springfox Enum Plugin</name>
 	<url>https://github.com/hoereth/springfox-enum-plugin</url>
 	<description>✏️ Annotate your enums and have this plugin automatically enhance your Swagger docs with it. (which is not possible with Springfox as of Oct 2018)</description>
@@ -30,7 +30,7 @@
 	<scm>
 		<url>https://github.com/hoereth/springfox-enum-plugin</url>
 		<connection>scm:git:https://github.com/hoereth/springfox-enum-plugin.git</connection>
-		<tag>HEAD</tag>
+		<tag>springfox-enum-plugin-1.3.0</tag>
 	</scm>
 
 	<properties>
