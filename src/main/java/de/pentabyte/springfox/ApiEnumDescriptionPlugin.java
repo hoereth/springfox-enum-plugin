@@ -1,18 +1,22 @@
 package de.pentabyte.springfox;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.classmate.ResolvedType;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.introspect.AnnotatedField;
 import com.fasterxml.jackson.databind.introspect.BeanPropertyDefinition;
+import com.google.common.base.Function;
 import com.google.common.base.Optional;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -136,6 +140,9 @@ public class ApiEnumDescriptionPlugin implements ModelPropertyBuilderPlugin, Par
 	 * description which is being pulled from {@link ApiEnum}.
 	 */
 	static String createMarkdownDescription(Class<? extends Enum<?>> clazz) {
+
+		Optional<Method> jsonValueMethod = findJsonValueAnnotatedMethod(clazz);
+
 		List<String> lines = new ArrayList<>();
 
 		boolean foundAny = false;
@@ -144,7 +151,12 @@ public class ApiEnumDescriptionPlugin implements ModelPropertyBuilderPlugin, Par
 			if (desc != null) {
 				foundAny = true;
 			}
-			String line = "* " + enumVal.name() + ": " + (desc == null ? "_@ApiEnum annotation not available_" : desc);
+
+			String enumName = jsonValueMethod
+				.transform(evaluateJsonValue(enumVal))
+				.or(enumVal.name());
+
+			String line = "* " + enumName + ": " + (desc == null ? "_@ApiEnum annotation not available_" : desc);
 			lines.add(line);
 		}
 
@@ -170,4 +182,26 @@ public class ApiEnumDescriptionPlugin implements ModelPropertyBuilderPlugin, Par
 		return null;
 	}
 
+	private static Optional<Method> findJsonValueAnnotatedMethod(Class<? extends Enum<?>> clazz) {
+		for (Method each : clazz.getMethods()) {
+			JsonValue jsonValue = AnnotationUtils.findAnnotation(each, JsonValue.class);
+			if (jsonValue != null && jsonValue.value()) {
+				return Optional.of(each);
+			}
+		}
+		return Optional.absent();
+    }
+
+	private static Function<Method, String> evaluateJsonValue(final Object enumConstant) {
+		return new Function<Method, String>() {
+			@Override
+			public String apply(Method input) {
+				try {
+					return input.invoke(enumConstant).toString();
+				} catch (Exception ignored) {
+					return "";
+				}
+			}
+		};
+	}
 }
