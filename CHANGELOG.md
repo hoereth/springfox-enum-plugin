@@ -1,6 +1,9 @@
 # springfox-enum-plugin Changelog
 All notable changes to the springfox-enum-plugin will be documented in this file.
 
+### Fixed
+- processes @JsonValue annotations now
+
 ## [1.2.0] - 2019-03-03
 ### Added
 - dataType support
