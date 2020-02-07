@@ -13,7 +13,7 @@ The **1.x** branch of this project will only work with Springfox **2.x**.
 <dependency>
     <groupId>de.pentabyte</groupId>
     <artifactId>springfox-enum-plugin</artifactId>
-    <version>1.2.0</version>
+    <version>1.3.0</version>
 </dependency>
 ```
 
@@ -63,6 +63,27 @@ Some description.
 * A: First option
 * B: Second option
 * C: _@ApiEnum annotation not available_
+```
+
+### Custom Enum Names
+
+The plugin will also pick up Jackson's custom mapping of enum names like this one:
+
+```java
+public enum SomeEnumWithJsonValueAnnotation {
+    @ApiEnum("A One")
+    A_1,
+    @ApiEnum("B Two")
+    B_2;
+
+    @com.fasterxml.jackson.annotation.JsonValue
+    /**
+     * A_1 and B_2 will be mapped to A-1 and B-2.
+     */
+    public String toJson() {
+        return name().toLowerCase().replace('_', '-');
+    }
+}
 ```
 
 ## Outlook

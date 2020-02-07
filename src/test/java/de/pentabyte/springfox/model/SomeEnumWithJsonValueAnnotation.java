@@ -10,6 +10,9 @@ public enum SomeEnumWithJsonValueAnnotation {
     B_2;
 
     @JsonValue
+    /**
+     * A_1 and B_2 will be mapped to A-1 and B-2.
+     */
     public String toJson() {
         return name().toLowerCase().replace('_', '-');
     }
