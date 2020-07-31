@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.AnnotationUtils;
@@ -61,7 +60,7 @@ public class ApiEnumDescriptionPlugin implements ModelPropertyBuilderPlugin, Par
 							Class<?> clazz = field.getType();
 							buildDescription(context, property, clazz);
 							String dataType = property.dataType();
-							if (StringUtils.isNotBlank(dataType)) {
+							if (dataType != null  && !"".equals(dataType.trim())) {
 								try {
 									Class<?> clazz2 = Class.forName(dataType);
 									buildDescription(context, property, clazz2);
@@ -161,7 +160,7 @@ public class ApiEnumDescriptionPlugin implements ModelPropertyBuilderPlugin, Par
 		}
 
 		if (foundAny) {
-			return StringUtils.join(lines, "\n");
+			return String.join("\n", lines);
 		} else {
 			return null;
 		}
