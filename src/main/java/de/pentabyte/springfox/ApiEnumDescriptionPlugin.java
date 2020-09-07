@@ -4,8 +4,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.AnnotationUtils;
@@ -16,8 +17,6 @@ import com.fasterxml.classmate.ResolvedType;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.introspect.AnnotatedField;
 import com.fasterxml.jackson.databind.introspect.BeanPropertyDefinition;
-import com.google.common.base.Function;
-import com.google.common.base.Optional;
 
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
@@ -61,7 +60,7 @@ public class ApiEnumDescriptionPlugin implements ModelPropertyBuilderPlugin, Par
 							Class<?> clazz = field.getType();
 							buildDescription(context, property, clazz);
 							String dataType = property.dataType();
-							if (StringUtils.isNotBlank(dataType)) {
+							if (dataType != null  && !"".equals(dataType.trim())) {
 								try {
 									Class<?> clazz2 = Class.forName(dataType);
 									buildDescription(context, property, clazz2);
@@ -94,7 +93,7 @@ public class ApiEnumDescriptionPlugin implements ModelPropertyBuilderPlugin, Par
 			String markdown = createMarkdownDescription((Class<? extends Enum<?>>) clazz);
 			if (markdown != null) {
 				description += "\n" + markdown;
-				context.getBuilder().description(description);
+				context.getSpecificationBuilder().description(description);
 			}
 		}
 	}
@@ -122,7 +121,7 @@ public class ApiEnumDescriptionPlugin implements ModelPropertyBuilderPlugin, Par
 							String markdown = createMarkdownDescription((Class<? extends Enum<?>>) clazz);
 							if (markdown != null) {
 								description += "\n" + markdown;
-								context.parameterBuilder().description(description);
+								context.requestParameterBuilder().description(description);
 							}
 						}
 					}
@@ -152,18 +151,19 @@ public class ApiEnumDescriptionPlugin implements ModelPropertyBuilderPlugin, Par
 				foundAny = true;
 			}
 
-			String enumName = jsonValueMethod
-				.transform(evaluateJsonValue(enumVal))
-				.or(enumVal.name());
+			String enumName = jsonValueMethod.map(evaluateJsonValue(enumVal))
+					.orElse(enumVal.name());
 
-			String line = "* " + enumName + ": " + (desc == null ? "_@ApiEnum annotation not available_" : desc);
+			String line = "* " + enumName + ": "
+					+ (desc == null ? "_@ApiEnum annotation not available_" : desc);
 			lines.add(line);
 		}
 
-		if (foundAny)
-			return StringUtils.join(lines, "\n");
-		else
+		if (foundAny) {
+			return String.join("\n", lines);
+		} else {
 			return null;
+		}
 	}
 
 	/**
@@ -172,8 +172,9 @@ public class ApiEnumDescriptionPlugin implements ModelPropertyBuilderPlugin, Par
 	static String readApiDescription(Enum<?> e) {
 		try {
 			ApiEnum annotation = e.getClass().getField(e.name()).getAnnotation(ApiEnum.class);
-			if (annotation != null)
+			if (annotation != null) {
 				return annotation.value();
+			}
 		} catch (NoSuchFieldException e1) {
 			throw new RuntimeException("impossible?", e1);
 		} catch (SecurityException e1) {
@@ -189,8 +190,8 @@ public class ApiEnumDescriptionPlugin implements ModelPropertyBuilderPlugin, Par
 				return Optional.of(each);
 			}
 		}
-		return Optional.absent();
-    }
+		return Optional.empty();
+	}
 
 	private static Function<Method, String> evaluateJsonValue(final Object enumConstant) {
 		return new Function<Method, String>() {

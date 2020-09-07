@@ -1,10 +1,13 @@
 package de.pentabyte.springfox;
 
 import java.lang.reflect.Method;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.core.MethodParameter;
+import org.springframework.http.MediaType;
 
 import com.fasterxml.classmate.ResolvedType;
 import com.fasterxml.classmate.TypeResolver;
@@ -18,12 +21,13 @@ import de.pentabyte.springfox.model.SomeEnum;
 import de.pentabyte.springfox.model.SomeEnum2;
 import de.pentabyte.springfox.model.SomeModel;
 import springfox.documentation.builders.ModelPropertyBuilder;
-import springfox.documentation.builders.ParameterBuilder;
-import springfox.documentation.schema.ModelProperty;
+import springfox.documentation.builders.PropertySpecificationBuilder;
+import springfox.documentation.schema.PropertySpecification;
 import springfox.documentation.service.ResolvedMethodParameter;
-import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.schema.contexts.ModelPropertyContext;
+import springfox.documentation.spi.service.contexts.OperationContext;
 import springfox.documentation.spi.service.contexts.ParameterContext;
+import springfox.documentation.spi.service.contexts.RequestMappingContext;
 
 public class ApiEnumDescriptionPluginTest {
 	ObjectMapper mapper = new ObjectMapper();
@@ -61,7 +65,6 @@ public class ApiEnumDescriptionPluginTest {
 
 	private void test_modelProperty(Class<?> clazz, String attributeName, String expectedDescription) {
 		ApiEnumDescriptionPlugin plugin = new ApiEnumDescriptionPlugin();
-		ModelPropertyBuilder builder = new ModelPropertyBuilder();
 		TypeResolver resolver = new TypeResolver();
 		JavaType type = mapper.constructType(SomeModel.class);
 		BeanDescription beanDescription = mapper.getDeserializationConfig().introspect(type);
@@ -69,10 +72,16 @@ public class ApiEnumDescriptionPluginTest {
 		for (BeanPropertyDefinition def : beanDescription.findProperties()) {
 			if (def.getName().equals(attributeName)) {
 				found = true;
-				ModelPropertyContext context = new ModelPropertyContext(builder, def, resolver,
-						DocumentationType.SWAGGER_2);
+
+				PropertySpecificationBuilder builder = new PropertySpecificationBuilder(attributeName);
+				ModelPropertyContext context = new ModelPropertyContext(
+								new ModelPropertyBuilder(),
+						        def,
+						        resolver,
+						        null,
+						        builder);
 				plugin.apply(context);
-				ModelProperty property = builder.build();
+				PropertySpecification property = builder.build();
 				Assert.assertEquals(expectedDescription, property.getDescription());
 			}
 		}
@@ -91,11 +100,18 @@ public class ApiEnumDescriptionPluginTest {
 		TypeResolver resolver = new TypeResolver();
 		ResolvedType type = resolver.resolve(SomeEnum.class);
 		ResolvedMethodParameter p = new ResolvedMethodParameter("param", mp, type);
-		ParameterBuilder builder = new ParameterBuilder();
-		ParameterContext context = new ParameterContext(p, builder, null, null, null);
+		OperationContext operationContext = new OperationContext(null, null, null, 0) {
+
+			@Override
+			public Set<MediaType> consumes() {
+				return new HashSet<>();
+			}
+			
+		};
+		ParameterContext context = new ParameterContext(p, null, null, operationContext, 0);
 
 		plugin.apply(context);
 		Assert.assertEquals("Some description.\n" + "* A: First Option\n" + "* B: Second Option\n"
-				+ "* C: _@ApiEnum annotation not available_", builder.build().getDescription());
+				+ "* C: _@ApiEnum annotation not available_", context.requestParameterBuilder().build().getDescription());
 	}
 }
