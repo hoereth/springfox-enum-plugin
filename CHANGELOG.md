@@ -1,6 +1,10 @@
 # springfox-enum-plugin Changelog
 All notable changes to the springfox-enum-plugin will be documented in this file.
 
+## [3.0.0] - 2020-09-09
+### Added
+- compatibility with Springfox 3.x
+
 ## [1.3.0] - 2020-02-07
 ### Added
 - processes @JsonValue annotations now

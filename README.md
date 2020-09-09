@@ -4,7 +4,8 @@ OpenAPI / Swagger / Springfox provide no way of documenting enumerations in a st
 
 ## Compatibility with Springfox
 
-The **1.x** branch of this project will only work with Springfox **2.x**.
+Springfox **2.x** <-> springfox-enum-plugin **1.x**.
+Springfox **3.x** <-> springfox-enum-plugin **3.x**.
 
 ## Maven Coordinates
 
@@ -13,7 +14,7 @@ The **1.x** branch of this project will only work with Springfox **2.x**.
 <dependency>
     <groupId>de.pentabyte</groupId>
     <artifactId>springfox-enum-plugin</artifactId>
-    <version>1.3.0</version>
+    <version>3.0.0</version>
 </dependency>
 ```
 
@@ -37,20 +38,23 @@ public enum SomeEnum {
 	 * Java Doc comment
 	 */
 	@ApiEnum("First Option")
-	A,
+	A, //
 	@ApiEnum("Second Option")
-	B,
+	B, //
 	C
 }
 ```
 
-Then - whenever such an enumeration is used in combination with _@ApiModelProperty_ or _@ApiParam_, the plugin will extend the standard description. Examples:
+Then - whenever such an enumeration is used in combination with _@ApiModelProperty_ property or _@ApiParam_, the plugin will extend the standard description. Examples:
 
 ```java
+@Getter
+@Setter
+...
 @ApiModelProperty("Some description.")
 SomeEnum attribute;
 
-@ApiModelProperty(value = "Some description.", dataType = "...SomeEnum")
+@ApiModelProperty(value = "Some description.", dataType = "org.example.SomeEnum")
 Integer attribute2;
 
 public void someMethod(@ApiParam("Some description.") SomeEnum param) { ... }
@@ -72,13 +76,13 @@ The plugin will also pick up Jackson's custom mapping of enum names like this on
 ```java
 public enum SomeEnumWithJsonValueAnnotation {
     @ApiEnum("A One")
-    A_1,
+    A_1, //
     @ApiEnum("B Two")
     B_2;
 
     @com.fasterxml.jackson.annotation.JsonValue
     /**
-     * A_1 and B_2 will be mapped to A-1 and B-2.
+     * A_1 and B_2 will be mapped to a-1 and b-2.
      */
     public String toJson() {
         return name().toLowerCase().replace('_', '-');
