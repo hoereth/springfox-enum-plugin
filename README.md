@@ -5,6 +5,7 @@ OpenAPI / Swagger / Springfox provide no way of documenting enumerations in a st
 ## Compatibility with Springfox
 
 Springfox **2.x** <-> springfox-enum-plugin **1.x**.
+
 Springfox **3.x** <-> springfox-enum-plugin **3.x**.
 
 ## Maven Coordinates
