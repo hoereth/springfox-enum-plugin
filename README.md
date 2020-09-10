@@ -31,7 +31,7 @@ public void MySpringConfiguration {
 }
 ```
 
-The plugin automatically registers with Springfox (version 2) and will process these proprietary [@ApiEnum](src/main/java/de/pentabyte/springfox/ApiEnum.java) annotations:
+The plugin automatically registers with Springfox and will process these proprietary [@ApiEnum](src/main/java/de/pentabyte/springfox/ApiEnum.java) annotations:
 
 ```java
 public enum SomeEnum {
